@@ -10,7 +10,7 @@ class HomeController
     }
 
     public function index(){
-        $user = $this->userModel->getAllUsers();
+        $users = $this->userModel->getAllUsers();
         require '../app/views/home.php';
     }
 }
