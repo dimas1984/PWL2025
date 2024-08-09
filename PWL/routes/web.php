@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\CRUDController;
+use App\Http\Controllers\CRUDPhoto;
+use App\Http\Controllers\halloController;
+use App\Http\Controllers\PageControllerSatu;
 use App\Http\Controllers\pembimbingController;
 use App\Http\Controllers\pengajarController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -105,9 +110,36 @@ Route::prefix('/admin')->group(function(){
  });
 
  //penggunaan route untuk controller
-Route::get('/daftar-dosen',[pengajarController::class,'daftarPengajar']);
-Route::get('/tabel-pengajar',[pengajarController::class,'tabelPengajar']);
-Route::get('/blog-pengajar',[pengajarController::class,'blogPengajar']);
+Route::get('/daftar_dosen',[pengajarController::class,'daftarPengajar']);
+Route::get('/tabel_pengajar',[pengajarController::class,'tabelPengajar']);
+Route::get('/blog_pengajar',[pengajarController::class,'blogPengajar']);
+Route::get('/pasar-buah',[PageControllerSatu::class,'satu']);
 
+//route resourse
+Route::resource('crud', CRUDController::class);
+
+// route beberapa resource
+Route::resource('photo',CRUDPhoto::class)->only([
+    'index',
+    'show'
+]);
+
+Route::resource('photos',CRUDPhoto::class)->except([
+    'create',
+    'store',
+    'destroy',
+    'edit'
+]);
+
+//view untuk route
+Route::get('/selamat', function(){
+    return view('hello',['name'=>'dono']);
+});
+
+// view untuk controller
+Route::get('/greeting',[WelcomeController::class,'greeting']);
+
+//meneruskan data ke view
+Route::get('/pekerjaan',[halloController::class,'greeting']);
 
 
