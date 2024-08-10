@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\CRUDPhoto;
 use App\Http\Controllers\halloController;
@@ -167,4 +168,12 @@ Route::get('/UserInsert',[UserController::class,'UserInsert']);
 Route::get('/UserUpdate',[UserController::class,'UserUpdate']);
 Route::get('/UserDelete',[UserController::class,'UserDelete']);
 
+// route AnggotaController menggunakan ORM
+Route::get('/AnggotaCekObject',[AnggotaController::class,'index']);
+Route::get('/AnggotaInsert',[AnggotaController::class,'AnggotaInsert']);
+Route::get('/AnggotaUpdate',[AnggotaController::class,'AnggotaUpdate']);
+Route::get('/AnggotaDelete',[AnggotaController::class,'AnggotaDelete']);
+Route::get('/AnggotaAll',[AnggotaController::class,'AnggotaAll']);
+Route::get('/AnggotaFind',[AnggotaController::class,'AnggotaFind']);
+Route::get('/AnggotaGetWhere',[AnggotaController::class,'AnggotaGetWhere']);
 
