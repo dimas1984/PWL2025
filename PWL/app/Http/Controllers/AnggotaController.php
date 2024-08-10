@@ -9,8 +9,9 @@ class AnggotaController extends Controller
 {
 
     public function index(){
-        $anggota = new Anggota;
-        dump($anggota);
+        // $anggota = new Anggota;
+        // dump($anggota);
+        return view('form-pendataran');
     }
 
     public function AnggotaInsert(){
@@ -57,6 +58,12 @@ class AnggotaController extends Controller
     return view('tampilkan_anggota',['anggotas' => $result]);
     }
 
-
+    public function prosesForm(Request $request){
+        // dump($request);
+        echo $request->nip;
+        echo "<br>";
+        echo $request->nama;
+        echo "<br>";
+    }
 
 }

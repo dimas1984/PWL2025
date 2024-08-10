@@ -177,3 +177,11 @@ Route::get('/AnggotaAll',[AnggotaController::class,'AnggotaAll']);
 Route::get('/AnggotaFind',[AnggotaController::class,'AnggotaFind']);
 Route::get('/AnggotaGetWhere',[AnggotaController::class,'AnggotaGetWhere']);
 
+// route form
+Route::get('/AnggotaForm',[AnggotaController::class,'index']);
+// Route::get('proses-form',[AnggotaController::class,'prosesForm']);
+
+//laravel bth CSRF token jika menggunakan metode post
+// CSRF -> cross site request forgery
+Route::post('/proses-form',[AnggotaController::class,'prosesForm']);
+
