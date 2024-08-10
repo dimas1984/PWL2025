@@ -8,6 +8,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PageControllerSatu;
 use App\Http\Controllers\pembimbingController;
 use App\Http\Controllers\pengajarController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -160,4 +161,10 @@ Route::get('/KategoriUpdate',[KategoriController::class,'KategoriUpdate']);
 Route::get('/KategoriDelete',[KategoriController::class,'KategoriDelete']);
 Route::get('/KategoriTampilData',[KategoriController::class,'KategoriTampilData']);
 
-// route leve
+// route UserController Menggunakan ORM
+Route::get('/user',[UserController::class,'index']);
+Route::get('/UserInsert',[UserController::class,'UserInsert']);
+Route::get('/UserUpdate',[UserController::class,'UserUpdate']);
+Route::get('/UserDelete',[UserController::class,'UserDelete']);
+
+
