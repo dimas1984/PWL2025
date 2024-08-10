@@ -3,6 +3,8 @@
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\CRUDPhoto;
 use App\Http\Controllers\halloController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PageControllerSatu;
 use App\Http\Controllers\pembimbingController;
 use App\Http\Controllers\pengajarController;
@@ -143,3 +145,19 @@ Route::get('/greeting',[WelcomeController::class,'greeting']);
 Route::get('/pekerjaan',[halloController::class,'greeting']);
 
 
+// route LevelController menggunakan DBFacade
+Route::get('/level',[LevelController::class,'index']);
+Route::get('/LevelInsert',[LevelController::class,'LevelInsert']);
+Route::get('/LevelUpdate',[LevelController::class,'LevelUpdate']);
+Route::get('/LevelDelete',[LevelController::class,'LevelDelete']);
+Route::get('/LevelTampilData',[LevelController::class,'LevelTampilData']);
+
+
+// route KategoriController menggunakan Query builder
+Route::get('/kategori',[KategoriController::class,'index']);
+Route::get('/KategoriInsert',[KategoriController::class,'KategoriInsert']);
+Route::get('/KategoriUpdate',[KategoriController::class,'KategoriUpdate']);
+Route::get('/KategoriDelete',[KategoriController::class,'KategoriDelete']);
+Route::get('/KategoriTampilData',[KategoriController::class,'KategoriTampilData']);
+
+// route leve
