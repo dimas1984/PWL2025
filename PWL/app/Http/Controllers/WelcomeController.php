@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
     //
-    public function hello(){
-        return('hello word');
-    }
+    public function index(){
+        $breadcrumb = (object) [
+            'title' => 'Dashboard',
+            'list' => ['Home']
+        ];
 
-    public function greeting(){
-        return view('blog.hello',['name'=>'ando']);
+        return  view('dashboard')
+            ->with('breadcrumb', $breadcrumb);
     }
 }

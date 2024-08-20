@@ -4,11 +4,13 @@ use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\CRUDController;
 use App\Http\Controllers\CRUDPhoto;
 use App\Http\Controllers\halloController;
+use App\Http\Controllers\CatController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PageControllerSatu;
 use App\Http\Controllers\pembimbingController;
 use App\Http\Controllers\pengajarController;
+use App\Http\Controllers\StokController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +26,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::pattern('id','[0-9]+'); // artinya ketika ada parameter {id}, maka harus berupa angka
+
+
+Route::get('/', [WelcomeController::class,'index']);
 
 Route::get('/hello',function(){
     return 'hello word';
@@ -44,26 +47,10 @@ Route::get('/about',function(){
     return 'NIM : 1232132313';
 });
 
-// route menggunakan parameter
-Route::get('/user/{nama}',function($nama){
-    return 'nama saya ' .$nama;
-});
-
 //route menggunakan 2 parameter
 Route::get('/posts/{post}/{comment}',function($post,$comment)
 {
     return 'parameter pertama '.$post.' Komentar '.$comment;
-});
-
-//optional route
-Route::get('/users/{name?}',function($name="noname"){
-    return 'Nama saya '.$name;
-});
-Route::get('/userss/{name?}',function($name="nulls"){
-    return 'Nama saya '.$name;
-});
-Route::get('/kodebarang/{jenis?}/{merek?}',function($jenis='ko1',$merek='mr01'){
-    return "kode barang ".$jenis." kode merek ".$merek;
 });
 
 
@@ -108,10 +95,10 @@ Route::prefix('/admin')->group(function(){
     });
  });
 
- //route fallback
- Route::fallback(function(){
-    return "mohon halaman ini tidak tersedia";
- });
+//  //route fallback
+//  Route::fallback(function(){
+//     return "mohon halaman ini tidak tersedia";
+//  });
 
  //penggunaan route untuk controller
 Route::get('/daftar_dosen',[pengajarController::class,'daftarPengajar']);
@@ -149,24 +136,20 @@ Route::get('/pekerjaan',[halloController::class,'greeting']);
 
 // route LevelController menggunakan DBFacade
 Route::get('/level',[LevelController::class,'index']);
+Route::post('/level/list',[LevelController::class,'list']); // untuk list json datatables
+Route::get('/level/create',[LevelController::class,'create']);
+Route::post('/level',[LevelController::class,'store']);
+Route::get('/level/{id}/edit',[LevelController::class,'edit']); // untuk tampilkan form edit
+Route::put('/level/{id}',[LevelController::class,'update']);    // untuk proses update data
+Route::delete('/level/{id}',[LevelController::class,'destroy']); // untuk proses hapus data
+
+
 Route::get('/LevelInsert',[LevelController::class,'LevelInsert']);
 Route::get('/LevelUpdate',[LevelController::class,'LevelUpdate']);
 Route::get('/LevelDelete',[LevelController::class,'LevelDelete']);
 Route::get('/LevelTampilData',[LevelController::class,'LevelTampilData']);
 
 
-// route KategoriController menggunakan Query builder
-Route::get('/kategori',[KategoriController::class,'index']);
-Route::get('/KategoriInsert',[KategoriController::class,'KategoriInsert']);
-Route::get('/KategoriUpdate',[KategoriController::class,'KategoriUpdate']);
-Route::get('/KategoriDelete',[KategoriController::class,'KategoriDelete']);
-Route::get('/KategoriTampilData',[KategoriController::class,'KategoriTampilData']);
-
-// route UserController Menggunakan ORM
-Route::get('/user',[UserController::class,'index']);
-Route::get('/UserInsert',[UserController::class,'UserInsert']);
-Route::get('/UserUpdate',[UserController::class,'UserUpdate']);
-Route::get('/UserDelete',[UserController::class,'UserDelete']);
 
 // route AnggotaController menggunakan ORM
 Route::get('/AnggotaCekObject',[AnggotaController::class,'index']);
@@ -185,3 +168,60 @@ Route::get('/AnggotaForm',[AnggotaController::class,'index']);
 // CSRF -> cross site request forgery
 Route::post('/proses-form',[AnggotaController::class,'prosesForm']);
 
+
+Route::get('/tsa', [\App\Http\Controllers\TSAController::class, 'index']);
+Route::get('/tsb', [\App\Http\Controllers\TSAController::class, 'alamat']);
+
+
+
+// route CatController menggunakan Query builder
+Route::get('/kategori',[KategoriController::class,'index']);
+
+Route::get('/kategori/{id}',[KategoriController::class,'show']);
+Route::get('/kategori/create',[KategoriController::class,'create']);
+
+Route::post('/kategori/list',[KategoriController::class,'list']); // utk list json datatables
+Route::post('/kategori',[KategoriController::class,'store']);
+Route::get('/kategori/{id}/edit',[KategoriController::class,'edit']); // utk tampilkan form edit
+Route::put('/kategori/{id}',[KategoriController::class,'update']);    // utk proses update data
+Route::delete('/kategori/{id}',[KategoriController::class,'destroy']); // utk proses hapus data
+
+Route::get('/kategori/{id}',[KategoriController::class,'show']);
+Route::post('/KategoriInsert',[CatController::class,'KategoriInsert']);
+Route::put('/KategoriUpdate',[CatController::class,'KategoriUpdate']);
+Route::delete('/KategoriDelete',[CatController::class,'KategoriDelete']);
+Route::get('/KategoriTampilData',[CatController::class,'KategoriTampilData']);
+
+
+// route UserController Menggunakan ORM
+Route::get('/user',[UserController::class,'index']);
+Route::get('/user/create',[UserController::class,'create']);
+Route::post('/user',[UserController::class,'store']);
+Route::post('/user/list',[UserController::class,'list']);
+Route::get('/user/{id}/edit',[UserController::class,'edit']);
+Route::put('/user/{id}',[UserController::class,'update']);
+Route::delete('/user/{id}',[UserController::class,'destroy']); 
+Route::get('/user/create_ajax',[UserController::class,'create_ajax']); // ajax form create
+Route::post('/user_ajax',[UserController::class,'store_ajax']); // ajax store
+Route::get('/user/{id}/edit_ajax',[UserController::class,'edit_ajax']); // ajax form edit
+Route::put('/user/{id}/update_ajax',[UserController::class,'update_ajax']); // ajax update
+Route::get('/user/{id}/delete_ajax',[UserController::class,'confirm_ajax']); // ajax form confirm delete
+Route::delete('/user/{id}/delete_ajax',[UserController::class,'delete_ajax']); // ajax delete
+
+
+
+
+// route UserController Menggunakan ORM
+Route::get('/stok',[StokController::class,'index']);
+Route::get('/stok/create',[StokController::class,'create']);
+Route::post('/stok',[StokController::class,'store']);
+Route::post('/stok/list',[StokController::class,'list']);
+Route::get('/stok/{id}/edit',[StokController::class,'edit']);
+Route::put('/stok/{id}',[StokController::class,'update']);
+Route::delete('/stok/{id}',[StokController::class,'destroy']); 
+Route::get('/stok/create_ajax',[StokController::class,'create_ajax']); // ajax form create
+Route::post('/stok_ajax',[StokController::class,'store_ajax']); // ajax store
+Route::get('/stok/{id}/edit_ajax',[StokController::class,'edit_ajax']); // ajax form edit
+Route::put('/stok/{id}/update_ajax',[StokController::class,'update_ajax']); // ajax update
+Route::get('/stok/{id}/delete_ajax',[StokController::class,'confirm_ajax']); // ajax form confirm delete
+Route::delete('/stok/{id}/delete_ajax',[StokController::class,'delete_ajax']); // ajax delete
